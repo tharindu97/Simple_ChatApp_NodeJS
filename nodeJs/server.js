@@ -3,9 +3,12 @@ const http = require('http');
 const express = require('express');
 const socketio = require('socket.io');
 
+const PORT = 3000 || process.env.PORT;
+
 const app = express();
 const server = http.createServer(app);
 const io = socketio(server);
+
 
 //set static folder
 app.use(express.static(path.join(__dirname, 'public')));
@@ -13,8 +16,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 // Run when client connects
 io.on('connection', socket => {
     console.log('New WS Connection...');
-    //socket.emit('message', 'Welcome to chatCord!');
+    socket.emit('message', 'Welcome to chatCord!');
 });
 
-const PORT = 3000 || process.env.PORT;
-app.listen(PORT, () => console.log(`Server Running on PORT ${PORT}`));
+
+server.listen(PORT, () => console.log(`Server Running on PORT ${PORT}`));
