@@ -18,22 +18,22 @@ const botName = 'ChatCord Bot';
 
 // Run when client connects
 io.on('connection', socket => {
-    console.log('New WS Connection...');
+    socket.on('joinRoom', ({username, room}) => {
+        // Welcome current user
+        socket.emit('message', formatMessage(botName,'Welcome to chatCord!'));
 
-    // Welcome current user
-    socket.emit('message', formatMessage(botName,'Welcome to chatCord!'));
-
-    //Broadcast when a user connects
-    socket.broadcast.emit('message', formatMessage(botName,'A user has joined the chat'));
-
-    //Runs when client disconnects
-    socket.on('disconnect', () => {
-        io.emit('message', formatMessage(botName,'A user has left the chat'));
-    });
-
+        //Broadcast when a user connects
+        socket.broadcast.emit('message', formatMessage(botName,'A user has joined the chat'));
+    })
+     
     //Listen for chatMessage
     socket.on('chatMessage', msg => {
         io.emit('message', formatMessage('USER',msg));
+    });
+    
+    //Runs when client disconnects
+    socket.on('disconnect', () => {
+        io.emit('message', formatMessage(botName,'A user has left the chat'));
     });
 });
 
