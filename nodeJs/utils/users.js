@@ -27,5 +27,5 @@ function getCurrentUser(id){
     return users.find(user => user.id === id);
 }
 
-module.exports = {userJoin, getCurrentUser, userLeave, getRoomUsers};
+module.exports = { userJoin, getCurrentUser, userLeave, getRoomUsers };
 //50 15
